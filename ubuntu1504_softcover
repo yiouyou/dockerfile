@@ -1,0 +1,27 @@
+FROM ubuntu:15.04
+MAINTAINER z.song
+RUN apt-get update
+RUN apt-get install -qqy g++ make wget curl unzip zip libcurl3 libcurl3-gnutls libcurl4-openssl-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libffi-dev build-essential python-software-properties
+###
+RUN \curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+RUN \curl -sSL https://get.rvm.io | bash -s stable --ruby
+RUN /bin/bash -c "source /usr/local/rvm/scripts/rvm && gem install softcover --no-ri --no-rdoc"
+RUN echo 'source /usr/local/rvm/scripts/rvm' >> ~/.bashrc
+###
+RUN apt-get install -qqy nodejs && ln -s /usr/bin/nodejs /usr/local/bin/node
+RUN mkdir ~/kindlegen_linux_2.6_i386_v2_9 && \
+  cd ~/kindlegen_linux_2.6_i386_v2_9 && \
+  wget http://kindlegen.s3.amazonaws.com/kindlegen_linux_2.6_i386_v2_9.tar.gz && \
+  tar -zxvf kindlegen_linux_2.6_i386_v2_9.tar.gz && \
+  ln -s ~/kindlegen_linux_2.6_i386_v2_9/kindlegen /usr/local/bin/kindlegen && \
+  rm ~/kindlegen_linux_2.6_i386_v2_9/kindlegen_linux_2.6_i386_v2_9.tar.gz
+RUN cd ~ && \
+  wget https://github.com/IDPF/epubcheck/releases/download/v3.0/epubcheck-3.0.zip && \
+  unzip epubcheck-3.0.zip && \
+  ln -s ~/epubcheck-3.0 /usr/local/bin/epubcheck-3.0 && \
+  rm ~/epubcheck-3.0.zip
+RUN apt-get install -qqy calibre inkscape phantomjs
+RUN apt-get install -qqy imagemagick
+RUN apt-get install -qqy default-jre
+RUN apt-get install -qqy texlive-full
+#ENTRYPOINT ["/usr/local/rvm/gems/ruby-2.2.1/bin/softcover"]
