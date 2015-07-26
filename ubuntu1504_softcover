@@ -1,7 +1,10 @@
 FROM ubuntu:15.04
 MAINTAINER z.song
 RUN apt-get update
-RUN apt-get install -qqy g++ make wget curl unzip zip libcurl3 libcurl3-gnutls libcurl4-openssl-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libffi-dev build-essential python-software-properties
+RUN apt-get install -qqy g++ make wget curl unzip zip libcurl3 libcurl3-gnutls \
+  libcurl4-openssl-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libsqlite3-dev \
+  sqlite3 libxml2-dev libxslt1-dev libffi-dev xfonts-utils\
+  build-essential python-software-properties
 ###
 RUN \curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 RUN \curl -sSL https://get.rvm.io | bash -s stable --ruby
